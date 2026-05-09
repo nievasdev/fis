@@ -508,6 +508,10 @@ deck-stage > section {
   font-size: var(--type-body-sm);
 }
 .timetable tr:last-child td { border-bottom: none; }
+.timetable tbody tr {
+  transition: background var(--dur-hover) var(--ease-vortex);
+}
+.timetable tbody tr:hover { background: var(--bg-tint); }
 
 
 /* =========================================================================
