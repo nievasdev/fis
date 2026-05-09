@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" width="320" height="200" fill="none" stroke="rgba(43,47,42,0.35)" stroke-width="1.25">
+  <circle cx="40" cy="100" r="10" stroke="#3C873A" stroke-width="1.75" fill="#FFFFFF"></circle>
+  <text x="40" y="124" font-family="JetBrains Mono, monospace" font-size="9" fill="#707569" text-anchor="middle">main.tsx</text>
+  <line x1="50" y1="100" x2="120" y2="48"></line>
+  <line x1="50" y1="100" x2="120" y2="100"></line>
+  <line x1="50" y1="100" x2="120" y2="152"></line>
+  <circle cx="130" cy="48" r="7" fill="#FFFFFF"></circle>
+  <circle cx="130" cy="100" r="7" fill="#FFFFFF"></circle>
+  <circle cx="130" cy="152" r="7" fill="#FFFFFF"></circle>
+  <line x1="138" y1="48" x2="210" y2="24"></line>
+  <line x1="138" y1="48" x2="210" y2="68"></line>
+  <line x1="138" y1="100" x2="210" y2="100"></line>
+  <line x1="138" y1="152" x2="210" y2="132"></line>
+  <line x1="138" y1="152" x2="210" y2="176"></line>
+  <circle cx="220" cy="24" r="6" fill="#FFFFFF"></circle>
+  <circle cx="220" cy="68" r="6" fill="#FFFFFF"></circle>
+  <circle cx="220" cy="100" r="6" fill="#FFFFFF" stroke="#68A063" stroke-width="1.75"></circle>
+  <circle cx="220" cy="132" r="6" fill="#FFFFFF"></circle>
+  <circle cx="220" cy="176" r="6" fill="#FFFFFF"></circle>
+  <line x1="226" y1="100" x2="290" y2="80"></line>
+  <line x1="226" y1="100" x2="290" y2="120"></line>
+  <circle cx="298" cy="80" r="5" fill="#FFFFFF" stroke="#1F3F1B" stroke-width="1.5"></circle>
+  <circle cx="298" cy="120" r="5" fill="#FFFFFF" stroke="#1F3F1B" stroke-width="1.5"></circle>
+</svg>

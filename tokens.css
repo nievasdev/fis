@@ -1,0 +1,151 @@
+/* =========================================================================
+   Vortex-TS — Design Tokens (Node-derived · Light · Sober)
+   Single source of truth for colour, type, spacing, radii, shadows, motion.
+   Light theme is canonical. Inspired by node.js: greens on warm white.
+   ========================================================================= */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap");
+
+:root {
+  /* ---------- Brand palette (Node-derived) ---------- */
+  --node-green-900: #1F3F1B;   /* deep forest, like the dark hex face */
+  --node-green-700: #3C873A;   /* canonical Node green (logo body) */
+  --node-green-500: #68A063;   /* Node mid-leaf green (logo highlight) */
+  --node-green-300: #A8C99E;   /* soft sage */
+  --node-green-100: #E6EFE0;   /* tinted background */
+  --node-green-50:  #F2F7EF;   /* lightest tint */
+
+  --node-charcoal:  #2B2F2A;   /* the "node" wordmark charcoal */
+  --node-graphite:  #3D423B;
+
+  /* contained brand gradient — used for marks and small accents only */
+  --vortex-gradient:    linear-gradient(135deg, #3C873A 0%, #68A063 100%);
+  --vortex-gradient-soft: linear-gradient(180deg, #F2F7EF 0%, #E6EFE0 100%);
+
+  /* ---------- Neutral scale (warm-white first) ---------- */
+  --neutral-0:    #FFFFFF;
+  --neutral-25:   #FBFBF8;       /* warm paper */
+  --neutral-50:   #F6F6F2;
+  --neutral-100:  #EDEDE7;
+  --neutral-200:  #DEDED6;
+  --neutral-300:  #C4C4BA;
+  --neutral-400:  #9A9A8E;
+  --neutral-500:  #6E6E63;
+  --neutral-600:  #4E4E45;
+  --neutral-700:  #38382F;
+  --neutral-800:  #26261F;
+  --neutral-900:  #1A1A14;
+
+  /* ---------- Semantic — Light theme (canonical) ---------- */
+  --bg-base:        var(--neutral-25);   /* warm paper */
+  --bg-elevated:    var(--neutral-0);    /* cards */
+  --bg-sunken:      var(--neutral-50);   /* code / wells */
+  --bg-tint:        var(--node-green-50);
+  --bg-inline-code: rgba(60, 135, 58, 0.08);
+
+  --fg-1:           var(--node-charcoal);  /* primary */
+  --fg-2:           #4E5249;               /* secondary */
+  --fg-3:           #707569;               /* tertiary / captions */
+  --fg-disabled:    var(--neutral-400);
+  --fg-inverse:     var(--neutral-0);
+  --fg-on-accent:   #FFFFFF;
+
+  --border-subtle:  rgba(43, 47, 42, 0.08);
+  --border-default: rgba(43, 47, 42, 0.14);
+  --border-strong:  rgba(43, 47, 42, 0.24);
+
+  --accent-primary: var(--node-green-700);
+  --accent-hover:   #2F6E2D;
+  --accent-soft:    var(--node-green-500);
+  --accent-deep:    var(--node-green-900);
+
+  /* ---------- Diagnostics ---------- */
+  --error:    #C0392B;
+  --error-bg: #FBECEA;
+  --warn:     #B7791F;
+  --warn-bg:  #FBF3E2;
+  --info:     #2A6FB5;
+  --info-bg:  #E7F0F9;
+  --success:  var(--node-green-700);
+  --success-bg: var(--node-green-50);
+
+  /* ---------- Syntax (light, paper-friendly) ---------- */
+  --syn-bg:       var(--neutral-50);
+  --syn-plain:    var(--node-charcoal);
+  --syn-comment:  #8A8E80;
+  --syn-keyword:  #9F2D8C;     /* sober plum for keywords */
+  --syn-type:     #2A6FB5;     /* steel blue for types */
+  --syn-string:   #3C873A;     /* node green for strings */
+  --syn-number:   #B7791F;     /* warm amber for numbers */
+  --syn-fn:       #5A4FCF;     /* slate violet */
+  --syn-prop:     #2B2F2A;
+
+  /* ---------- Type families ---------- */
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --font-feat: "cv11", "ss01", "ss03";
+
+  /* ---------- Type scale ---------- */
+  --fs-12: 12px;  --lh-12: 16px;
+  --fs-13: 13px;  --lh-13: 20px;
+  --fs-14: 14px;  --lh-14: 20px;
+  --fs-15: 15px;  --lh-15: 22px;
+  --fs-16: 16px;  --lh-16: 24px;
+  --fs-18: 18px;  --lh-18: 28px;
+  --fs-20: 20px;  --lh-20: 28px;
+  --fs-24: 24px;  --lh-24: 32px;
+  --fs-32: 32px;  --lh-32: 40px;
+  --fs-40: 40px;  --lh-40: 48px;
+  --fs-56: 56px;  --lh-56: 60px;
+  --fs-72: 72px;  --lh-72: 76px;
+
+  /* ---------- Spacing ---------- */
+  --sp-0: 0;  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px;  --sp-4: 16px;
+  --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px; --sp-9: 96px; --sp-10: 128px;
+
+  /* ---------- Radii ---------- */
+  --r-2: 2px; --r-4: 4px; --r-6: 6px; --r-8: 8px; --r-12: 12px; --r-pill: 999px;
+
+  /* ---------- Shadows (single-layer, soft) ---------- */
+  --shadow-none:     none;
+  --shadow-card:     0 1px 2px rgba(43,47,42,0.06), 0 4px 12px rgba(43,47,42,0.04);
+  --shadow-pop:      0 8px 24px rgba(43,47,42,0.10), 0 0 0 1px rgba(43,47,42,0.06);
+  --shadow-focus:    0 0 0 3px rgba(60,135,58,0.20);
+
+  /* ---------- Motion ---------- */
+  --ease-vortex: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --dur-hover:   120ms;
+  --dur-state:   200ms;
+  --dur-route:   320ms;
+
+  /* ---------- Z ---------- */
+  --z-nav: 40; --z-modal: 60; --z-toast: 80;
+}
+
+/* =========================================================================
+   Type roles
+   ========================================================================= */
+
+.t-display { font-family: var(--font-sans); font-weight: 700; font-size: var(--fs-72); line-height: var(--lh-72); letter-spacing: -0.025em; color: var(--fg-1); }
+.t-h1      { font-family: var(--font-sans); font-weight: 700; font-size: var(--fs-56); line-height: var(--lh-56); letter-spacing: -0.022em; color: var(--fg-1); }
+.t-h2      { font-family: var(--font-sans); font-weight: 600; font-size: var(--fs-40); line-height: var(--lh-40); letter-spacing: -0.02em;  color: var(--fg-1); }
+.t-h3      { font-family: var(--font-sans); font-weight: 600; font-size: var(--fs-32); line-height: var(--lh-32); letter-spacing: -0.018em; color: var(--fg-1); }
+.t-h4      { font-family: var(--font-sans); font-weight: 600; font-size: var(--fs-24); line-height: var(--lh-24); letter-spacing: -0.012em; color: var(--fg-1); }
+.t-h5      { font-family: var(--font-sans); font-weight: 600; font-size: var(--fs-18); line-height: var(--lh-18); color: var(--fg-1); }
+.t-eyebrow { font-family: var(--font-mono); font-weight: 500; font-size: var(--fs-12); line-height: var(--lh-12); letter-spacing: 0.10em; text-transform: uppercase; color: var(--accent-primary); }
+.t-body-lg { font-family: var(--font-sans); font-weight: 400; font-size: var(--fs-18); line-height: var(--lh-18); color: var(--fg-2); }
+.t-body    { font-family: var(--font-sans); font-weight: 400; font-size: var(--fs-16); line-height: var(--lh-16); color: var(--fg-2); }
+.t-body-sm { font-family: var(--font-sans); font-weight: 400; font-size: var(--fs-14); line-height: var(--lh-14); color: var(--fg-2); }
+.t-caption { font-family: var(--font-sans); font-weight: 500; font-size: var(--fs-13); line-height: var(--lh-13); color: var(--fg-3); }
+code, kbd, samp, pre, .t-mono { font-family: var(--font-mono); font-weight: 400; font-size: var(--fs-14); line-height: var(--lh-14); }
+.t-mono-sm { font-family: var(--font-mono); font-weight: 400; font-size: var(--fs-12); line-height: var(--lh-12); }
+.t-metric  { font-family: var(--font-mono); font-weight: 500; font-size: var(--fs-40); line-height: var(--lh-40); letter-spacing: -0.01em; color: var(--fg-1); font-variant-numeric: tabular-nums; }
+
+.vtx-surface {
+  font-family: var(--font-sans);
+  font-feature-settings: var(--font-feat);
+  background: var(--bg-base);
+  color: var(--fg-1);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

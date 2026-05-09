@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <linearGradient id="vtx-hex-dark" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#38382F"></stop>
+      <stop offset="100%" stop-color="#2B2F2A"></stop>
+    </linearGradient>
+    <linearGradient id="vtx-hex-green" x1="50%" x2="50%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#68A063"></stop>
+      <stop offset="100%" stop-color="#3C873A"></stop>
+    </linearGradient>
+  </defs>
+  
+  <polygon points="128,16 224,72 224,184 128,240 32,184 32,72" fill="url(#vtx-hex-dark)"></polygon>
+  
+  <polygon points="128,52 192,89 192,167 128,204 64,167 64,89" fill="url(#vtx-hex-green)"></polygon>
+  
+  <text x="128" y="148" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="56" fill="#FFFFFF" letter-spacing="-2">TS</text>
+</svg>

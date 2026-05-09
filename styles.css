@@ -1,0 +1,711 @@
+/* =========================================================================
+   ÍNDICE
+   -------------------------------------------------------------------------
+   1. Variables (tamaños de tipografía, padding, gaps)
+   2. Base (body, deck-stage)
+   3. Layout — el contenedor común de cada slide (.slide)
+   4. Tipografía — eyebrow, title, subtitle, body, small
+   5. Pie de página de slide (.page-foot)
+   6. Bloques de código (.code) y terminal (.term)
+   7. Tarjetas (.card) y pills (.pill)
+   8. Section headers (.section-slide)
+   9. Helpers de grid/stack/row
+  10. Listas (.num-list, .bullets)
+  11. Diagnósticos (.diag) — banners verde/rojo
+  12. Tabla de tiempos (.timetable)
+  13. Portada (.cover) y métricas grandes (.metric)
+  14. Comparación Vite vs Webpack (.cmp)
+  15. Slide de cierre (.closing)
+  16. ANIMACIONES — pulso de puntos y empuje de flechas
+   ========================================================================= */
+
+
+/* =========================================================================
+   1. VARIABLES
+   Cambiá estos números para reescalar todo el deck.
+   Las --type-* son tamaños de fuente; las --pad-* y --gap-* son espacios.
+   ========================================================================= */
+:root {
+  --type-display:    180px;
+  --type-title:      96px;
+  --type-h2:         64px;
+  --type-h3:         48px;
+  --type-body:       34px;
+  --type-body-sm:    28px;
+  --type-small:      24px;
+  --type-eyebrow:    24px;
+  --type-mono:       30px;
+  --type-mono-sm:    24px;
+  --type-metric:     120px;
+
+  --pad-x:           120px;
+  --pad-top:         80px;
+  --pad-bottom:      56px;
+  --gap-title:       56px;
+  --gap-item:        28px;
+  --gap-section:     72px;
+}
+
+
+/* =========================================================================
+   2. BASE
+   ========================================================================= */
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #0e0f0d;                         /* letterbox alrededor del 16:9 */
+  font-family: var(--font-sans);
+  font-feature-settings: var(--font-feat);
+  color: var(--fg-1);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Cada <section> dentro de <deck-stage> es una slide */
+deck-stage > section {
+  background: var(--bg-base);
+  color: var(--fg-1);
+  overflow: hidden;
+}
+
+
+/* =========================================================================
+   3. LAYOUT — contenedor común de cada slide
+   .slide.paper  → fondo blanco cálido (default)
+   .slide.tint   → fondo verde clarito (para variar el ritmo)
+   .slide.deep   → fondo verde profundo + texto blanco (sections)
+   ========================================================================= */
+.slide {
+  width: 100%;
+  height: 100%;
+  padding: var(--pad-top) var(--pad-x) var(--pad-bottom);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+.slide.tint   { background: var(--bg-tint); }
+.slide.paper  { background: var(--bg-base); }
+.slide.deep   { background: var(--accent-deep); color: var(--fg-inverse); }
+
+
+/* =========================================================================
+   4. TIPOGRAFÍA — roles principales
+   .eyebrow → mini-label arriba del título (con punto verde a la izquierda)
+   .title   → H1 grande de la slide
+   .subtitle, .body, .small → escalonan hacia abajo
+   ========================================================================= */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: var(--type-eyebrow);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-primary);
+  margin: 0 0 var(--gap-title) 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+}
+.eyebrow .dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--accent-primary);
+  display: inline-block;
+  animation: pulse-dot 2.4s var(--ease-vortex) infinite;
+}
+.deep .eyebrow { color: var(--node-green-300); }
+.deep .eyebrow .dot { background: var(--node-green-300); }
+
+.title {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: var(--type-title);
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  color: var(--fg-1);
+  margin: 0;
+  text-wrap: pretty;
+}
+.deep .title { color: var(--fg-inverse); }
+
+.subtitle {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: var(--type-h3);
+  line-height: 1.25;
+  letter-spacing: -0.012em;
+  color: var(--fg-2);
+  margin: 32px 0 0 0;
+  max-width: 1500px;
+}
+.deep .subtitle { color: var(--node-green-300); }
+
+.body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: var(--type-body);
+  line-height: 1.45;
+  color: var(--fg-2);
+  margin: 0;
+  max-width: 1500px;
+}
+.body strong { color: var(--fg-1); font-weight: 600; }
+.deep .body  { color: var(--node-green-100); }
+.deep .body strong { color: var(--fg-inverse); }
+
+.small {
+  font-family: var(--font-sans);
+  font-size: var(--type-small);
+  line-height: 1.5;
+  color: var(--fg-3);
+  margin: 0;
+}
+
+/* page footer / chapter mark */
+.page-foot {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--fg-3);
+  font-family: var(--font-mono);
+  font-size: var(--type-mono-sm);
+  letter-spacing: 0.06em;
+}
+.deep .page-foot { color: var(--node-green-300); }
+.page-foot .left { display: inline-flex; gap: 14px; align-items: center; }
+.page-foot .left .sq {
+  width: 10px; height: 10px; background: var(--accent-primary);
+}
+.deep .page-foot .left .sq { background: var(--node-green-300); }
+
+
+/* =========================================================================
+   6. CÓDIGO Y TERMINAL
+   .code → bloque con fondo blanco y syntax highlighting (clases .kw .ty .st…)
+   .term → terminal con barra superior gris y fondo oscuro
+   ========================================================================= */
+.code {
+  font-family: var(--font-mono);
+  font-size: var(--type-mono);
+  line-height: 1.55;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-12);
+  padding: 32px 40px;
+  color: var(--syn-plain);
+  box-shadow: var(--shadow-card);
+  white-space: pre;
+  overflow: hidden;
+}
+.code .com { color: var(--syn-comment); font-style: italic; }
+.code .kw  { color: var(--syn-keyword); }
+.code .ty  { color: var(--syn-type); }
+.code .st  { color: var(--syn-string); }
+.code .nu  { color: var(--syn-number); }
+.code .fn  { color: var(--syn-fn); }
+.code .pl  { color: var(--syn-plain); }
+.code .err { color: var(--error); font-weight: 500; }
+.code .ok  { color: var(--success); font-weight: 500; }
+.code .dim { color: var(--fg-3); }
+
+/* Terminal block ------------------------------------------------- */
+
+.term {
+  background: #1a1c18;
+  color: #e8e8df;
+  border-radius: var(--r-12);
+  padding: 0;
+  font-family: var(--font-mono);
+  font-size: var(--type-mono);
+  line-height: 1.6;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.10), 0 12px 32px rgba(0,0,0,0.18);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.term .bar {
+  background: #232520;
+  padding: 14px 22px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.term .bar .dots { display: inline-flex; gap: 8px; }
+.term .bar .dots span {
+  width: 12px; height: 12px; border-radius: 999px;
+  background: #44473e;
+}
+.term .bar .label {
+  color: #888a80; font-size: 24px; letter-spacing: 0.02em;
+  font-family: var(--font-mono);
+}
+.term .body-t {
+  padding: 24px 36px;
+  white-space: pre;
+  font-size: 26px;
+  line-height: 1.55;
+}
+.term .prompt { color: #68A063; }
+.term .out    { color: #b8b9ae; }
+.term .ok2    { color: #87c87a; }
+.term .num    { color: #d4a352; }
+
+
+/* =========================================================================
+   7. TARJETAS Y PILLS
+   ========================================================================= */
+.card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-12);
+  padding: 36px 40px;
+  box-shadow: var(--shadow-card);
+}
+.card .label {
+  font-family: var(--font-mono);
+  font-size: var(--type-small);
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--accent-primary);
+  margin: 0 0 18px 0;
+}
+.card .val {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 40px;
+  line-height: 1.18;
+  color: var(--fg-1);
+  margin: 0 0 16px 0;
+  letter-spacing: -0.014em;
+}
+.card .desc {
+  font-family: var(--font-sans);
+  font-size: var(--type-body-sm);
+  line-height: 1.45;
+  color: var(--fg-2);
+  margin: 0;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  border: 1px solid var(--border-default);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: var(--type-small);
+  color: var(--fg-2);
+  background: var(--bg-elevated);
+}
+.pill .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--accent-primary);
+  animation: pulse-dot 2.4s var(--ease-vortex) infinite;
+}
+
+
+/* =========================================================================
+   8. SECTION HEADER — slide de transición entre bloques
+   Fondo verde profundo, número grande de sección, título tipo wordmark.
+   ========================================================================= */
+.section-slide {
+  width: 100%; height: 100%;
+  background: var(--accent-deep);
+  color: var(--fg-inverse);
+  padding: var(--pad-top) var(--pad-x) var(--pad-bottom);
+  box-sizing: border-box;
+  display: flex; flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+.section-slide::before {
+  content: "";
+  position: absolute;
+  inset: auto -200px -200px auto;
+  width: 1100px; height: 1100px;
+  background-image:
+    radial-gradient(circle, rgba(168,201,158,0.18) 1.6px, transparent 2px);
+  background-size: 28px 28px;
+  pointer-events: none;
+  mask-image: radial-gradient(circle at 60% 40%, black 0%, transparent 65%);
+  -webkit-mask-image: radial-gradient(circle at 60% 40%, black 0%, transparent 65%);
+}
+.section-slide .sec-num {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: var(--type-eyebrow);
+  letter-spacing: 0.16em;
+  color: var(--node-green-300);
+  margin: 0 0 var(--gap-title) 0;
+}
+.section-slide .sec-title {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 220px;
+  line-height: 0.94;
+  letter-spacing: -0.035em;
+  color: var(--fg-inverse);
+  margin: 0;
+}
+.section-slide .sec-title em {
+  font-style: normal;
+  color: var(--node-green-500);
+}
+.section-slide .sec-blurb {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: var(--type-h3);
+  line-height: 1.3;
+  color: var(--node-green-100);
+  margin: 56px 0 0 0;
+  max-width: 1400px;
+  letter-spacing: -0.01em;
+}
+.section-slide .sec-foot {
+  margin-top: auto;
+  color: var(--node-green-300);
+  font-family: var(--font-mono);
+  font-size: var(--type-mono-sm);
+  letter-spacing: 0.08em;
+}
+
+
+/* =========================================================================
+   9. HELPERS DE GRID / STACK / ROW
+   ========================================================================= */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+
+.stack { display: flex; flex-direction: column; gap: var(--gap-item); }
+.stack-lg { display: flex; flex-direction: column; gap: 40px; }
+.row { display: flex; align-items: center; gap: 24px; }
+
+
+/* =========================================================================
+   10. LISTAS
+   .num-list → numeración en mono (01, 02, 03…) a la izquierda
+   .bullets  → flecha verde → como bullet
+   ========================================================================= */
+.num-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 28px; }
+.num-list li {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  align-items: baseline;
+  column-gap: 28px;
+  font-size: var(--type-body);
+  line-height: 1.4;
+  color: var(--fg-1);
+}
+.num-list li .n {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: var(--accent-primary);
+  font-size: 32px;
+  letter-spacing: 0.04em;
+}
+.num-list li .desc {
+  font-size: var(--type-body-sm);
+  color: var(--fg-2);
+  margin-top: 8px;
+  line-height: 1.4;
+}
+
+/* Bulleted list with mono dashes --------------------------------- */
+.bullets { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 22px; }
+.bullets li {
+  display: grid; grid-template-columns: 32px 1fr;
+  column-gap: 20px;
+  font-size: var(--type-body);
+  line-height: 1.4;
+  color: var(--fg-1);
+}
+.bullets li::before {
+  content: "→";
+  color: var(--accent-primary);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  display: inline-block;
+  animation: nudge-arrow 2.6s var(--ease-vortex) infinite;
+}
+.bullets li:nth-child(2)::before { animation-delay: 0.15s; }
+.bullets li:nth-child(3)::before { animation-delay: 0.30s; }
+.bullets li:nth-child(4)::before { animation-delay: 0.45s; }
+.bullets li:nth-child(5)::before { animation-delay: 0.60s; }
+.bullets li:nth-child(6)::before { animation-delay: 0.75s; }
+
+
+/* =========================================================================
+   11. DIAGNÓSTICOS — banners verde (ok) o rojo (err)
+   ========================================================================= */
+.diag {
+  border-radius: var(--r-8);
+  padding: 18px 24px;
+  font-family: var(--font-mono);
+  font-size: var(--type-mono-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 24px;
+}
+.diag.err { background: var(--error-bg); color: var(--error); border: 1px solid rgba(192,57,43,0.25); }
+.diag.ok  { background: var(--success-bg); color: var(--success); border: 1px solid rgba(60,135,58,0.25); }
+
+
+/* =========================================================================
+   12. TABLA DE TIEMPOS — usada en la slide de agenda
+   ========================================================================= */
+.timetable {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-sans);
+  font-size: var(--type-body);
+}
+.timetable th {
+  text-align: left;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: var(--type-small);
+  text-transform: uppercase;
+  letter-spacing: 0.10em;
+  color: var(--fg-3);
+  padding: 18px 24px;
+  border-bottom: 2px solid var(--border-default);
+}
+.timetable td {
+  padding: 28px 24px;
+  border-bottom: 1px solid var(--border-subtle);
+  vertical-align: middle;
+  color: var(--fg-1);
+}
+.timetable td.t {
+  font-family: var(--font-mono);
+  color: var(--accent-primary);
+  font-weight: 500;
+  width: 280px;
+  letter-spacing: 0.02em;
+}
+.timetable td.b {
+  width: 700px;
+  font-weight: 500;
+}
+.timetable td.m {
+  color: var(--fg-3);
+  font-size: var(--type-body-sm);
+}
+.timetable tr:last-child td { border-bottom: none; }
+
+
+/* =========================================================================
+   13. PORTADA Y MÉTRICAS GRANDES
+   .cover → slide de tapa con badge, título XL y meta abajo
+   .metric → número gigante en mono (ej. "2.4M+")
+   ========================================================================= */
+.cover {
+  position: relative;
+  width: 100%; height: 100%;
+  background: var(--bg-base);
+  overflow: hidden;
+}
+.cover .bg-art {
+  position: absolute;
+  right: -180px; top: -120px;
+  width: 1500px; height: 1500px;
+  background-image:
+    radial-gradient(circle, rgba(60,135,58,0.16) 1.8px, transparent 2px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(circle at 35% 65%, black 0%, transparent 70%);
+  -webkit-mask-image: radial-gradient(circle at 35% 65%, black 0%, transparent 70%);
+  pointer-events: none;
+}
+.cover .inner {
+  position: relative;
+  height: 100%;
+  padding: var(--pad-top) var(--pad-x) var(--pad-bottom);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+.cover .top {
+  display: flex; align-items: center; gap: 20px;
+}
+.cover .top .badge {
+  font-family: var(--font-mono);
+  font-size: var(--type-small);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-primary);
+  padding: 12px 20px;
+  border: 1px solid rgba(60,135,58,0.3);
+  border-radius: 999px;
+  background: rgba(60,135,58,0.06);
+}
+.cover h1 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 220px;
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+  margin: 0;
+  color: var(--fg-1);
+  text-wrap: balance;
+}
+.cover h1 .stack-words {
+  display: block;
+}
+.cover h1 .accent { color: var(--accent-primary); }
+.cover .lede {
+  font-family: var(--font-sans);
+  font-size: var(--type-h3);
+  font-weight: 400;
+  color: var(--fg-2);
+  line-height: 1.28;
+  max-width: 1400px;
+  margin: 56px 0 0 0;
+  letter-spacing: -0.01em;
+}
+.cover .meta {
+  display: flex; gap: 56px; align-items: flex-end;
+  color: var(--fg-3);
+  font-family: var(--font-mono);
+  font-size: var(--type-small);
+  letter-spacing: 0.06em;
+}
+.cover .meta .k {
+  color: var(--fg-3);
+  text-transform: uppercase;
+  font-size: 24px;
+  letter-spacing: 0.14em;
+  margin-bottom: 10px;
+}
+.cover .meta .v {
+  color: var(--fg-1);
+  font-size: var(--type-body-sm);
+  font-weight: 500;
+}
+
+.metric {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: var(--type-display);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--fg-1);
+  font-variant-numeric: tabular-nums;
+}
+.metric .accent { color: var(--accent-primary); }
+
+
+/* =========================================================================
+   14. COMPARACIÓN — Vite vs Webpack
+   Dos columnas; .col.alt es la columna destacada (verde clarito).
+   ========================================================================= */
+.cmp { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+.cmp .col {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-12);
+  padding: 40px;
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-card);
+  display: flex; flex-direction: column; gap: 24px;
+}
+.cmp .col.alt { background: var(--bg-tint); border-color: rgba(60,135,58,0.18); }
+.cmp .col h4 {
+  margin: 0; font-size: 44px; font-weight: 600; letter-spacing: -0.014em;
+  color: var(--fg-1);
+}
+.cmp .col .tag {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 24px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  margin: 0;
+}
+.cmp .col .tag .dot { width: 10px; height: 10px; border-radius: 999px; background: var(--neutral-300); }
+.cmp .col.alt .tag { color: var(--accent-primary); }
+.cmp .col.alt .tag .dot { background: var(--accent-primary); }
+.cmp .col p {
+  margin: 0; font-size: var(--type-body-sm); line-height: 1.45; color: var(--fg-2);
+}
+.cmp .col .stat {
+  font-family: var(--font-mono);
+  font-size: 56px;
+  font-weight: 500;
+  color: var(--fg-1);
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+.cmp .col.alt .stat { color: var(--accent-primary); }
+
+
+/* =========================================================================
+   15. SLIDE DE CIERRE — frase final + tarea sugerida
+   ========================================================================= */
+.closing {
+  width: 100%; height: 100%;
+  background: var(--bg-base);
+  padding: var(--pad-top) var(--pad-x) var(--pad-bottom);
+  box-sizing: border-box;
+  display: flex; flex-direction: column;
+  position: relative;
+}
+.closing .quote {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 88px;
+  line-height: 1.1;
+  letter-spacing: -0.024em;
+  color: var(--fg-1);
+  max-width: 1600px;
+  text-wrap: pretty;
+  margin: 0;
+}
+.closing .quote .a { color: var(--accent-primary); }
+.closing .author {
+  margin-top: 56px;
+  font-family: var(--font-mono);
+  font-size: var(--type-body-sm);
+  color: var(--fg-3);
+  letter-spacing: 0.04em;
+}
+
+
+/* =========================================================================
+   16. ANIMACIONES
+   Suaves, infinitas, no distraen. Para apagarlas globalmente:
+   poné `animation: none` en la regla correspondiente arriba.
+   ========================================================================= */
+
+@keyframes pulse-dot {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(60, 135, 58, 0.45);
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.85;
+    box-shadow: 0 0 0 6px rgba(60, 135, 58, 0);
+  }
+}
+
+@keyframes nudge-arrow {
+  0%, 100% { transform: translateX(0); }
+  50%      { transform: translateX(6px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eyebrow .dot,
+  .pill .dot,
+  .bullets li::before {
+    animation: none !important;
+  }
+}

@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>Node.js, TypeScript y Vite — Clase 30 min</title>
+<link rel="stylesheet" href="tokens.css" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<deck-stage width="1920" height="1080">
+
+  <!-- ===================================================================
+       SLIDE 01 — Cover
+       =================================================================== -->
+  <section data-screen-label="01 Portada">
+    <div class="cover">
+      <div class="bg-art"></div>
+      <div class="inner">
+        <div class="top">
+          <span class="badge">Clase · 30 minutos</span>
+          <span class="badge" style="background: transparent; border-color: var(--border-default); color: var(--fg-3);">Frontend moderno</span>
+        </div>
+
+        <div>
+          <h1>
+            <span class="stack-words">Node.js,</span>
+            <span class="stack-words">TypeScript</span>
+            <span class="stack-words">y <span class="accent">Vite</span>.</span>
+          </h1>
+          <p class="lede">Tres herramientas que probablemente ya escucharon nombrar y que van a aparecer juntas durante toda la carrera.</p>
+        </div>
+
+        <div class="meta">
+          <div>
+            <div class="k">Tema</div>
+            <div class="v">El stack base del frontend moderno</div>
+          </div>
+          <div>
+            <div class="k">Formato</div>
+            <div class="v">Charla + demo en vivo</div>
+          </div>
+          <div>
+            <div class="k">Duración</div>
+            <div class="v">30 min · 22 slides</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       SLIDE 02 — La frase resumen
+       =================================================================== -->
+  <section data-screen-label="02 Resumen en una frase">
+    <div class="slide paper">
+      <p class="eyebrow"><span class="dot"></span>En una frase</p>
+      <h2 class="title" style="font-size: 124px; max-width: 1700px;">
+        Node es el <span style="color: var(--accent-primary);">motor</span>,<br/>
+        TypeScript es el <span style="color: var(--accent-primary);">control de calidad</span>,<br/>
+        Vite es el <span style="color: var(--accent-primary);">armador del proyecto</span>.
+      </h2>
+      <p class="subtitle" style="margin-top: 64px;">Las tres juntas son la base del desarrollo frontend moderno. Hoy vemos qué hace cada una y cómo encajan.</p>
+      <div class="page-foot">
+        <span class="left"><span class="sq"></span>01 · Resumen</span>
+        <span>Node.js · TypeScript · Vite</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       SLIDE 03 — Distribución del tiempo
+       =================================================================== -->
+  <section data-screen-label="03 Distribución del tiempo">
+    <div class="slide paper">
+      <p class="eyebrow"><span class="dot"></span>Agenda</p>
+      <h2 class="title">Cómo se distribuyen los 30 minutos.</h2>
+
+      <div style="margin-top: 64px;">
+        <table class="timetable">
+          <thead>
+            <tr>
+              <th>Tiempo</th>
+              <th>Bloque</th>
+              <th>Modalidad</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="t">0:00 — 2:00</td>
+              <td class="b">Introducción y objetivos</td>
+              <td class="m">Slide</td>
+            </tr>
+            <tr>
+              <td class="t">2:00 — 9:00</td>
+              <td class="b">Node.js</td>
+              <td class="m">Explicación + terminal</td>
+            </tr>
+            <tr>
+              <td class="t">9:00 — 16:00</td>
+              <td class="b">TypeScript</td>
+              <td class="m">Explicación + ejemplo corto</td>
+            </tr>
+            <tr>
+              <td class="t">16:00 — 26:00</td>
+              <td class="b">Vite + demo integradora</td>
+              <td class="m">Demo en vivo</td>
+            </tr>
+            <tr>
+              <td class="t">26:00 — 28:00</td>
+              <td class="b">Bonus: pre-commit y tests</td>
+              <td class="m">Mención breve</td>
+            </tr>
+            <tr>
+              <td class="t">28:00 — 30:00</td>
+              <td class="b">Cierre y preguntas</td>
+              <td class="m">Conversación</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="page-foot">
+        <span class="left"><span class="sq"></span>02 · Agenda</span>
+        <span>30 min · 6 bloques</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       SLIDE 04 — Section header: Node.js
+       =================================================================== -->
+  <section data-screen-label="04 Sección Node.js">
+    <div class="section-slide">
+      <p class="sec-num">01 / runtime</p>
+      <h2 class="sec-title">Node<em>.js</em></h2>
+      <p class="sec-blurb">El motor que hace correr JavaScript fuera del navegador, y con él, todas las herramientas con las que armamos el frontend.</p>
+      <div class="sec-foot">7 min · introducción + terminal</div>
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       SLIDE 05 — Qué es Node.js
+       =================================================================== -->
+  <section data-screen-label="05 Qué es Node.js">
+    <div class="slide paper">
+      <p class="eyebrow"><span class="dot"></span>Definición</p>
+      <h2 class="title">Un runtime de JavaScript<br/>fuera del navegador.</h2>
+
+      <div class="grid-3" style="margin-top: 80px;">
+        <div class="card">
+          <p class="label">Motor</p>
+          <p class="val">V8 de Chrome</p>
+          <p class="desc">El mismo intérprete que ejecuta JS en el navegador, empaquetado para correr en el sistema operativo.</p>
+        </div>
+        <div class="card">
+          <p class="label">Modelo</p>
+          <p class="val">Event-driven, non-blocking I/O</p>
+          <p class="desc">Asíncrono y orientado a eventos. Eficiente para muchas conexiones simultáneas: APIs, servicios, CLIs.</p>
+        </div>
+        <div class="card">
+          <p class="label">Año</p>
+          <p class="val">2009 — Ryan Dahl</p>
+          <p class="desc">Antes de Node, JavaScript solo corría en el navegador. Hoy es la base del tooling de frontend.</p>
+        </div>
+      </div>
+
+      <div class="page-foot">
+        <span class="left"><span class="sq"></span>03 · Node.js</span>
+        <span>1 / 5</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       SLIDE 06 — Para qué se usa
+       =================================================================== -->
+  <section data-screen-label="06 Para qué nos sirve Node">
+    <div class="slide tint">
+      <p class="eyebrow"><span class="dot"></span>Para qué nos sirve</p>
+      <h2 class="title">Para todo lo que no es<br/>“mostrar una página”.</h2>
+
+      <div class="grid-2" style="margin-top: 80px; gap: 40px;">
+        <ul class="bullets">
+          <li><div><strong>Servidores y APIs</strong> — Express, Fastify, Next, etc.</div></li>
+          <li><div><strong>Herramientas de línea de comandos</strong> — desde un CLI propio hasta scripts de mantenimiento.</div></li>
+          <li><div><strong>Automatización y scripting</strong> — leer archivos, mover datos, integraciones puntuales.</div></li>
+        </ul>
+        <ul class="bullets">
+          <li><div><strong>Tooling de frontend</strong> — bundlers, linters, formatters, test runners.</div></li>
+          <li><div><strong>Build y deploy</strong> — los pipelines que transforman tu código antes de subirlo.</div></li>
+          <li><div><strong>Para nosotros hoy</strong> — correr Vite, ejecutar TypeScript, instalar dependencias.</div></li>
+        </ul>
+      </div>
+
+      <p class="body" style="margin-top: 64px; font-style: italic; color: var(--fg-3); max-width: 1500px;">“Aunque hagamos frontend, vamos a usar Node todo el tiempo para correr las herramientas.”</p>
+
+      <div class="page-foot">
+        <span class="left"><span class="sq"></span>03 · Node.js</span>
+        <span>2 / 5</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       SLIDE 07 — npm
+       =================================================================== -->
+  <section data-screen-label="07 npm">
+    <div class="slide paper">
+      <p class="eyebrow"><span class="dot"></span>npm</p>
+      <h2 class="title">El gestor de paquetes<br/>más grande del mundo.</h2>
+
+      <div class="grid-2" style="margin-top: 48px; gap: 80px; align-items: start;">
+        <div class="stack" style="gap: 24px;">
+          <div>
+            <p class="metric" style="font-size: 120px;"><span class="accent">2.4M+</span></p>
+            <p class="small" style="margin-top: 12px; font-family: var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase;">paquetes publicados</p>
+          </div>
+          <p class="body" style="max-width: 700px; font-size: 28px;">npm viene incluido cuando instalás Node. Es <strong>una biblioteca gigante de código que otra gente escribió</strong> y que vos podés usar en tu proyecto con un solo comando.</p>
+        </div>
+        <div class="stack" style="gap: 16px;">
+          <div class="card" style="padding: 28px 32px;">
+            <p class="label">npm install</p>
+            <p class="desc" style="font-size: 26px;">Baja todas las dependencias declaradas en <code style="font-family: var(--font-mono); color: var(--accent-primary); font-size: 26px;">package.json</code> a <code style="font-family: var(--font-mono); color: var(--accent-primary); font-size: 26px;">node_modules/</code>.</p>
+          </div>
+          <div class="card" style="padding: 24px 28px;">
+            <p class="label">npm install &lt;paquete&gt;</p>
+            <p class="desc" style="font-size: 26px;">Agrega una dependencia nueva al proyecto y la guarda en <code style="font-family: var(--font-mono); color: var(--accent-primary); font-size: 26px;">package.json</code>.</p>
+          </div>
+          <div class="card" style="padding: 24px 28px;">
+            <p class="label">npm run &lt;script&gt;</p>
+            <p class="desc" style="font-size: 26px;">Corre uno de los scripts definidos en el manifiesto (por ejemplo, <code style="font-family: var(--font-mono); color: var(--accent-primary); font-size: 26px;">npm run dev</code>).</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-foot">
+        <span class="left"><span class="sq"></span>03 · Node.js</span>
+        <span>3 / 5</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       SLIDE 08 — package.json
+       =================================================================== -->
+  <section data-screen-label="08 package.json">
+    <div class="slide paper">
+      <p class="eyebrow"><span class="dot"></span>package.json</p>
+      <h2 class="title">El manifiesto del proyecto.</h2>
+
+      <div class="grid-2" style="margin-top: 64px; gap: 64px; align-items: start;">
+        <pre class="code" style="font-size: 24px; line-height: 1.5; padding: 24px 28px;"><span class="pl">{</span>
+  <span class="st">"name"</span>: <span class="st">"mi-proyecto"</span>,
+  <span class="st">"version"</span>: <span class="st">"1.0.0"</span>,
+  <span class="st">"scripts"</span>: {
+    <span class="st">"dev"</span>: <span class="st">"vite"</span>,
+    <span class="st">"build"</span>: <span class="st">"vite build"</span>,
+    <span class="st">"preview"</span>: <span class="st">"vite preview"</span>
+  },
+  <span class="st">"dependencies"</span>: {
+    <span class="st">"react"</span>: <span class="st">"^18.3.1"</span>
+  },
+  <span class="st">"devDependencies"</span>: {
+    <span class="st">"vite"</span>: <span class="st">"^5.4.0"</span>,
+    <span class="st">"typescript"</span>: <span class="st">"^5.5.0"</span>
+  }
+<span class="pl">}</span></pre>
+
+        <ul class="bullets" style="gap: 24px; font-size: 28px;">
+          <li><div><strong>scripts</strong> — atajos que se corren con npm run.</div></li>
+          <li><div><strong>dependencies</strong> — paquetes necesarios en producción.</div></li>
+          <li><div><strong>devDependencies</strong> — herramientas solo para desarrollar.</div></li>
+          <li><div><strong>node_modules/</strong> — donde se descargan; va en .gitignore.</div></li>
+        </ul>
+      </div>
+
+      <div class="page-foot">
+        <span class="left"><span class="sq"></span>03 · Node.js</span>
+        <span>4 / 5</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       SLIDE 09 — Comandos esenciales (terminal)
+       =================================================================== -->
+  <section data-screen-label="09 Comandos esenciales">
+    <div class="slide paper">
+      <p class="eyebrow"><span class="dot"></span>Comandos esenciales</p>
+      <h2 class="title">Lo mínimo para arrancar.</h2>
+
+      <div style="margin-top: 64px; max-width: 1500px;">
+        <div class="term">
+          <div class="bar">
+            <span class="dots"><span></span><span></span><span></span></span>
+            <span class="label">~ / proyectos / mi-proyecto</span>
+          </div>
+          <div class="body-t" style="padding: 20px 32px; font-size: 24px; line-height: 1.5;"><span class="out"># Ver versiones instaladas</span>
+<span class="prompt">$</span> node --version
+<span class="ok2">v22.11.0</span>
+<span class="prompt">$</span> npm --version
+<span class="ok2">10.9.0</span>
+
+<span class="out"># Iniciar un proyecto desde cero</span>
+<span class="prompt">$</span> npm init -y
+<span class="out">✔ wrote package.json</span>
+
+<span class="out"># Instalar una dependencia</span>
+<span class="prompt">$</span> npm install lodash
+<span class="out">added <span class="num">1</span> package in <span class="num">2s</span></span>
+
+<span class="out"># Correr un script del package.json</span>
+<span class="prompt">$</span> npm run dev</div>
+        </div>
+      </div>
+
+      <div class="page-foot">
+        <span class="left"><span class="sq"></span>03 · Node.js</span>
+        <span>5 / 5</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       SLIDE 10 — Section header: TypeScript
+       =================================================================== -->
+  <section data-screen-label="10 Sección TypeScript">
+    <div class="section-slide">
+      <p class="sec-num">02 / lenguaje</p>
+      <h2 class="sec-title">Type<em>Script</em></h2>
+      <p class="sec-blurb">JavaScript con tipos. El editor te avisa antes de correr el código, y la firma de cada función pasa a ser documentación viva.</p>
+      <div class="sec-foot">7 min · explicación + ejemplo corto</div>
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       SLIDE 11 — Qué es TypeScript
+       =================================================================== -->
+  <section data-screen-label="11 Qué es TypeScript">
+    <div class="slide paper">
+      <p class="eyebrow"><span class="dot"></span>Definición</p>
+      <h2 class="title">JavaScript + tipos,<br/>desarrollado por Microsoft.</h2>
+
+      <div class="grid-3" style="margin-top: 80px;">
+        <div class="card">
+          <p class="label">Superset</p>
+          <p class="val">Extiende JavaScript</p>
+          <p class="desc">Todo el JS válido es TS válido. Le agrega un sistema de tipos estáticos opcional sin romper lo existente.</p>
+        </div>
+        <div class="card">
+          <p class="label">Compila a JS</p>
+          <p class="val">Se transpila antes de correr</p>
+          <p class="desc">El compilador <span style="font-family: var(--font-mono); color: var(--accent-primary);">tsc</span> chequea tipos y emite JavaScript plano que corre donde corra JS.</p>
+        </div>
+        <div class="card">
+          <p class="label">Configuración</p>
+          <p class="val">tsconfig.json</p>
+          <p class="desc">Le dice al compilador qué versión de JS emitir, qué nivel de strictness aplicar, y dónde están los archivos.</p>
+        </div>
+      </div>
+
+      <div class="page-foot">
+        <span class="left"><span class="sq"></span>04 · TypeScript</span>
+        <span>1 / 5</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       SLIDE 12 — JS permisivo
+       =================================================================== -->
+  <section data-screen-label="12 JS es permisivo">
+    <div class="slide paper">
+      <p class="eyebrow"><span class="dot"></span>El problema</p>
+      <h2 class="title">JavaScript es demasiado permisivo.</h2>
+
+      <div style="margin-top: 64px; max-width: 1500px;">
+<pre class="code" style="font-size: 36px; line-height: 1.6;"><span class="com">// JavaScript</span>
+<span class="kw">function</span> <span class="fn">sumar</span>(a, b) {
+  <span class="kw">return</span> a + b;
+}
+
+<span class="fn">sumar</span>(<span class="st">"2"</span>, <span class="nu">3</span>);  <span class="com">// devuelve "23"</span></pre>
+      </div>
+
+      <div class="diag err" style="margin-top: 40px; font-size: 26px; padding: 22px 32px;">
+        <span style="font-weight: 600;">⚠ El error lo descubrís</span>
+        cuando ya está en producción y un usuario te avisa.
+      </div>
+
+      <div class="page-foot">
+        <span class="left"><span class="sq"></span>04 · TypeScript</span>
+        <span>2 / 5</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       SLIDE 13 — TS te avisa antes
+       =================================================================== -->
+  <section data-screen-label="13 TS te avisa antes">
+    <div class="slide tint">
+      <p class="eyebrow"><span class="dot"></span>La solución</p>
+      <h2 class="title">TypeScript te avisa antes de correr.</h2>
+
+      <div style="margin-top: 64px; max-width: 1500px;">
+<pre class="code" style="font-size: 36px; line-height: 1.6;"><span class="com">// TypeScript</span>
+<span class="kw">function</span> <span class="fn">sumar</span>(a: <span class="ty">number</span>, b: <span class="ty">number</span>): <span class="ty">number</span> {
+  <span class="kw">return</span> a + b;
+}
+
+<span class="fn">sumar</span>(<span class="st">"2"</span>, <span class="nu">3</span>);  <span class="err">// ❌ Error: el editor lo marca al instante</span></pre>
+      </div>
+
+      <div class="diag ok" style="margin-top: 40px; font-size: 26px; padding: 22px 32px;">
+        <span style="font-weight: 600;">✓ Tipado estático:</span>
+        chequea los tipos en tiempo de compilación, no en tiempo de ejecución.
+      </div>
+
+      <div class="page-foot">
+        <span class="left"><span class="sq"></span>04 · TypeScript</span>
+        <span>3 / 5</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       SLIDE 14 — Tres ventajas
+       =================================================================== -->
+  <section data-screen-label="14 Tres ventajas">
+    <div class="slide paper">
+      <p class="eyebrow"><span class="dot"></span>Ventajas concretas</p>
+      <h2 class="title">Tres razones para escribir TypeScript.</h2>
+
+      <div class="grid-3" style="margin-top: 80px; gap: 40px;">
+        <div class="card" style="padding: 44px 40px;">
+          <p class="label" style="font-size: 26px;">01</p>
+          <p class="val" style="font-size: 44px;">Errores antes de correr</p>
+          <p class="desc">Los ves en el editor mientras escribís, no en producción. Menos surprise bugs y menos vueltas con el debugger.</p>
+        </div>
+        <div class="card" style="padding: 44px 40px;">
+          <p class="label" style="font-size: 26px;">02</p>
+          <p class="val" style="font-size: 44px;">Autocompletado real</p>
+          <p class="desc">El editor sabe qué métodos tiene cada cosa. IntelliSense pasa de adivinar a mostrarte exactamente lo que existe.</p>
+        </div>
+        <div class="card" style="padding: 44px 40px;">
+          <p class="label" style="font-size: 26px;">03</p>
+          <p class="val" style="font-size: 44px;">Documentación viva</p>
+          <p class="desc">La firma de la función te dice qué espera y qué devuelve. No hace falta abrir la implementación para usarla.</p>
+        </div>
+      </div>
+
+      <p class="body" style="margin-top: 56px; font-style: italic; color: var(--fg-3); max-width: 1500px;">“El tipado da trazabilidad: sabés qué espera y qué devuelve cada función sin tener que leerla entera.”</p>
+
+      <div class="page-foot">
+        <span class="left"><span class="sq"></span>04 · TypeScript</span>
+        <span>4 / 5</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       SLIDE 15 — Conceptos a conocer
+       =================================================================== -->
+  <section data-screen-label="15 Conceptos TypeScript">
+    <div class="slide paper">
+      <p class="eyebrow"><span class="dot"></span>Vocabulario</p>
+      <h2 class="title">Cinco conceptos que vale<br/>la pena conocer.</h2>
+
+      <div style="margin-top: 48px; max-width: 1700px;">
+<pre class="code" style="font-size: 24px; line-height: 1.5; padding: 24px 32px;"><span class="com">// 1 · Tipos primitivos                       // 3 · opcional con `?`</span>
+<span class="kw">const</span> nombre: <span class="ty">string</span> = <span class="st">"Ana"</span>;          <span class="kw">interface</span> <span class="ty">Usuario</span> {
+<span class="kw">const</span> edad:   <span class="ty">number</span> = <span class="nu">30</span>;             id: <span class="ty">number</span>;
+<span class="kw">const</span> activo: <span class="ty">boolean</span> = <span class="kw">true</span>;        email: <span class="ty">string</span>;
+                                            apodo?: <span class="ty">string</span>;
+<span class="com">// 4 · type — alias y uniones</span>             }
+<span class="kw">type</span> <span class="ty">Estado</span> = <span class="st">"loading"</span> | <span class="st">"ok"</span> | <span class="st">"error"</span>;
+
+<span class="com">// 5 · firmas: qué espera y qué devuelve</span>
+<span class="kw">function</span> <span class="fn">saludar</span>(u: <span class="ty">Usuario</span>): <span class="ty">string</span> {
+  <span class="kw">return</span> <span class="st">`Hola ${u.apodo ?? u.email}`</span>;
+}</pre>
+      </div>
+
+      <div class="page-foot">
+        <span class="left"><span class="sq"></span>04 · TypeScript</span>
+        <span>5 / 5</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       SLIDE 16 — Section header: Vite
+       =================================================================== -->
+  <section data-screen-label="16 Sección Vite">
+    <div class="section-slide">
+      <p class="sec-num">03 / build tool</p>
+      <h2 class="sec-title">Vi<em>te</em></h2>
+      <p class="sec-blurb">El armador del proyecto. Dev server casi instantáneo, HMR ultrarrápido, y un build de producción optimizado con Rollup.</p>
+      <div class="sec-foot">10 min · explicación + demo en vivo</div>
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       SLIDE 17 — Qué es Vite
+       =================================================================== -->
+  <section data-screen-label="17 Qué es Vite">
+    <div class="slide paper">
+      <p class="eyebrow"><span class="dot"></span>Definición</p>
+      <h2 class="title">Build tool y dev server moderno<br/>para proyectos frontend.</h2>
+
+      <div class="grid-3" style="margin-top: 80px;">
+        <div class="card">
+          <p class="label">Autor</p>
+          <p class="val">Evan You</p>
+          <p class="desc">El mismo creador de Vue. <em>“Vite”</em> significa <em>“rápido”</em> en francés — y es literal.</p>
+        </div>
+        <div class="card">
+          <p class="label">En desarrollo</p>
+          <p class="val">ES modules nativos</p>
+          <p class="desc">El navegador resuelve los imports a demanda. Arranque casi instantáneo, sin bundlear todo el proyecto.</p>
+        </div>
+        <div class="card">
+          <p class="label">En producción</p>
+          <p class="val">Build con Rollup</p>
+          <p class="desc">Empaqueta el código optimizado, hace tree-shaking y emite los assets listos para servir.</p>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top: 64px; gap: 16px; flex-wrap: wrap;">
+        <span class="pill"><span class="dot"></span>TypeScript</span>
+        <span class="pill"><span class="dot"></span>JSX / TSX</span>
+        <span class="pill"><span class="dot"></span>CSS modules</span>
+        <span class="pill"><span class="dot"></span>React</span>
+        <span class="pill"><span class="dot"></span>Vue</span>
+        <span class="pill"><span class="dot"></span>Svelte</span>
+        <span class="small" style="margin-left: 8px;">— soportados de forma nativa, sin configuración extra.</span>
+      </div>
+
+      <div class="page-foot">
+        <span class="left"><span class="sq"></span>05 · Vite</span>
+        <span>1 / 5</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       SLIDE 18 — Vite vs Webpack
+       =================================================================== -->
+  <section data-screen-label="18 Vite vs Webpack">
+    <div class="slide paper">
+      <p class="eyebrow"><span class="dot"></span>Comparación</p>
+      <h2 class="title">Por qué Vite y no Webpack.</h2>
+
+      <div class="cmp" style="margin-top: 72px;">
+        <div class="col">
+          <p class="tag"><span class="dot"></span>Webpack · clásico</p>
+          <h4>Bundlea todo el proyecto al iniciar</h4>
+          <p class="stat">~30 s</p>
+          <p>Cada vez que arrancás el dev server, procesa <strong>todo el código fuente y todas las dependencias</strong> antes de mostrar nada en pantalla.</p>
+          <p>En cambios grandes vuelve a rebundlear. Proyectos chicos lo aguantan; proyectos medianos empiezan a sentirse lentos.</p>
+        </div>
+        <div class="col alt">
+          <p class="tag"><span class="dot"></span>Vite · moderno</p>
+          <h4>Sirve módulos a demanda con ESM</h4>
+          <p class="stat">~50 ms</p>
+          <p>El navegador pide los archivos que necesita y Vite los transforma <strong>solo cuando se piden</strong>. No procesa lo que no usás.</p>
+          <p>HMR ultrarrápido: cambia un archivo y el módulo se reemplaza en caliente, sin perder el estado de la página.</p>
+        </div>
+      </div>
+
+      <div class="page-foot">
+        <span class="left"><span class="sq"></span>05 · Vite</span>
+        <span>2 / 5</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       SLIDE 19 — Demo: 8 pasos
+       =================================================================== -->
+  <section data-screen-label="19 Demo en vivo">
+    <div class="slide paper">
+      <p class="eyebrow"><span class="dot"></span>Demo en vivo</p>
+      <h2 class="title">Un proyecto desde cero,<br/>en menos de diez minutos.</h2>
+
+      <div class="grid-2" style="margin-top: 64px; gap: 64px; align-items: start;">
+        <div class="term">
+          <div class="bar">
+            <span class="dots"><span></span><span></span><span></span></span>
+            <span class="label">terminal — demo</span>
+          </div>
+          <div class="body-t" style="font-size: 26px;"><span class="out"># 1 · Crear el proyecto</span>
+<span class="prompt">$</span> npm create vite@latest mi-proyecto \
+       -- --template vanilla-ts
+
+<span class="out"># 2 · Instalar dependencias</span>
+<span class="prompt">$</span> cd mi-proyecto
+<span class="prompt">$</span> npm install
+
+<span class="out"># 3 · Levantar el dev server</span>
+<span class="prompt">$</span> npm run dev
+<span class="ok2">  VITE v5.4.0  ready in <span class="num">412</span> ms</span>
+<span class="ok2">  ➜  Local:   http://localhost:<span class="num">5173</span>/</span></div>
+        </div>
+
+        <ol class="num-list">
+          <li><span class="n">04</span><div>Abrir el editor y revisar la estructura: <code style="font-family: var(--font-mono); color: var(--accent-primary); font-size: 26px;">index.html</code>, <code style="font-family: var(--font-mono); color: var(--accent-primary); font-size: 26px;">src/</code>, <code style="font-family: var(--font-mono); color: var(--accent-primary); font-size: 26px;">tsconfig.json</code>, <code style="font-family: var(--font-mono); color: var(--accent-primary); font-size: 26px;">vite.config.ts</code>.</div></li>
+          <li><span class="n">05</span><div>Mirar los <strong>scripts</strong> en <code style="font-family: var(--font-mono); color: var(--accent-primary); font-size: 26px;">package.json</code>: <em>dev</em>, <em>build</em>, <em>preview</em>.</div></li>
+          <li><span class="n">06</span><div>Editar <code style="font-family: var(--font-mono); color: var(--accent-primary); font-size: 26px;">src/main.ts</code> y guardar — <strong>el cambio aparece sin recargar la página</strong>. Eso es HMR.</div></li>
+          <li><span class="n">07</span><div>Provocar un error de tipos a propósito (pasar un <code style="font-family: var(--font-mono); color: var(--accent-primary); font-size: 26px;">string</code> donde espera <code style="font-family: var(--font-mono); color: var(--accent-primary); font-size: 26px;">number</code>) — el editor lo marca y el build falla.</div></li>
+          <li><span class="n">08</span><div>Arreglarlo, correr <code style="font-family: var(--font-mono); color: var(--accent-primary); font-size: 26px;">npm run build</code> — se genera la carpeta <code style="font-family: var(--font-mono); color: var(--accent-primary); font-size: 26px;">dist/</code>, lista para subir.</div></li>
+        </ol>
+      </div>
+
+      <div class="page-foot">
+        <span class="left"><span class="sq"></span>05 · Vite</span>
+        <span>3 / 5</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       SLIDE 20 — HMR y build seguro
+       =================================================================== -->
+  <section data-screen-label="20 HMR y build seguro">
+    <div class="slide tint">
+      <p class="eyebrow"><span class="dot"></span>Lo que pasa al guardar</p>
+      <h2 class="title">HMR en desarrollo,<br/>TypeScript en el build.</h2>
+
+      <div class="grid-2" style="margin-top: 64px; gap: 56px; align-items: start;">
+        <div class="stack">
+          <div class="card" style="background: var(--bg-elevated);">
+            <p class="label">npm run dev</p>
+            <p class="val" style="font-size: 36px;">Cambio aplicado al instante</p>
+            <p class="desc">Hot Module Replacement: Vite reemplaza solo el módulo que tocaste. La página no se recarga, el estado se conserva.</p>
+          </div>
+          <pre class="code" style="font-size: 24px; line-height: 1.55; padding: 24px 28px;"><span class="com">// src/main.ts — cambiás esto…</span>
+<span class="kw">const</span> titulo = <span class="st">"Hola clase"</span>;
+<span class="com">// …guardás, y aparece en el navegador.</span></pre>
+        </div>
+
+        <div class="stack">
+          <div class="card" style="background: var(--bg-elevated);">
+            <p class="label">npm run build</p>
+            <p class="val" style="font-size: 36px;">TypeScript te protege antes de subir</p>
+            <p class="desc">Si hay un error de tipos, el build falla. No podés deployar código roto sin darte cuenta.</p>
+          </div>
+          <pre class="code" style="font-size: 24px; line-height: 1.55; padding: 24px 28px;"><span class="kw">function</span> <span class="fn">saludar</span>(nombre: <span class="ty">string</span>): <span class="ty">string</span> {
+  <span class="kw">return</span> <span class="st">`Hola ${nombre}`</span>;
+}
+<span class="fn">saludar</span>(<span class="nu">42</span>);
+<span class="err">// error TS2345: Argument of type 'number'</span>
+<span class="err">// is not assignable to parameter 'string'.</span></pre>
+        </div>
+      </div>
+
+      <p class="body" style="margin-top: 48px; font-style: italic; color: var(--fg-3); max-width: 1500px;">“Con un solo comando tenemos Node corriendo el server, Vite haciendo el bundle y TypeScript validando los tipos.”</p>
+
+      <div class="page-foot">
+        <span class="left"><span class="sq"></span>05 · Vite</span>
+        <span>4 / 5</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       SLIDE 21 — Bonus: pre-commit y tests
+       =================================================================== -->
+  <section data-screen-label="21 Bonus pre-commit y tests">
+    <div class="slide paper">
+      <p class="eyebrow"><span class="dot"></span>Bonus</p>
+      <h2 class="title">Dos cosas que les van a aparecer<br/>y vale la pena investigar.</h2>
+
+      <div class="grid-2" style="margin-top: 80px; gap: 56px;">
+        <div class="card" style="padding: 48px;">
+          <p class="label">Pre-commit hooks</p>
+          <p class="val" style="font-size: 44px; margin-bottom: 24px;">husky + lint-staged</p>
+          <p class="desc" style="font-size: 28px; line-height: 1.45;">Validaciones que se corren <strong>automáticamente antes de cada commit</strong>: lint, formato, tests. Si algo falla, el commit no se hace.</p>
+          <p class="desc" style="font-size: 28px; line-height: 1.45; margin-top: 16px; color: var(--fg-3);">Ayuda a no romper la rama principal y a mantener un estilo de código consistente entre todo el equipo.</p>
+        </div>
+        <div class="card" style="padding: 48px;">
+          <p class="label">Testing en Node</p>
+          <p class="val" style="font-size: 44px; margin-bottom: 24px;">node:test  ·  vitest</p>
+          <p class="desc" style="font-size: 28px; line-height: 1.45;"><strong>node:test</strong> viene incluido desde Node 18, sin instalar nada. <strong>vitest</strong> se integra naturalmente con Vite y comparte su configuración.</p>
+          <p class="desc" style="font-size: 28px; line-height: 1.45; margin-top: 16px; color: var(--fg-3);">Para más adelante: empezar pequeño, una función pura con tres casos.</p>
+        </div>
+      </div>
+
+      <div class="page-foot">
+        <span class="left"><span class="sq"></span>06 · Bonus</span>
+        <span>1 / 1</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       SLIDE 22 — Cierre + preguntas
+       =================================================================== -->
+  <section data-screen-label="22 Cierre y preguntas">
+    <div class="closing">
+      <p class="eyebrow"><span class="dot"></span>Cierre</p>
+
+      <div style="margin-top: 80px;">
+        <p class="quote">
+          Node es el <span class="a">motor</span> que hace correr todo,<br/>
+          TypeScript es el <span class="a">control de calidad</span><br/>
+          que evita errores tontos,<br/>
+          y Vite es el <span class="a">armador</span> del proyecto.
+        </p>
+      </div>
+
+      <div style="margin-top: 64px; max-width: 1500px;">
+        <p class="body" style="font-size: 32px; line-height: 1.45;"><strong>Tarea sugerida.</strong> Crear un proyecto Vite con TypeScript, escribir una función con tipos, romperla a propósito pasando algo del tipo equivocado, y ver cómo reacciona el editor y el build. Es la mejor forma de entenderlo.</p>
+      </div>
+
+      <div class="page-foot" style="margin-top: auto;">
+        <span class="left"><span class="sq"></span>07 · Cierre</span>
+        <span>¿Preguntas?</span>
+      </div>
+    </div>
+  </section>
+
+</deck-stage>
+
+<script src="deck-stage.js"></script>
+</body>
+</html>
