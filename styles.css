@@ -401,7 +401,7 @@ deck-stage > section {
    .num-list → numeración en mono (01, 02, 03…) a la izquierda
    .bullets  → flecha verde → como bullet
    ========================================================================= */
-.num-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 28px; }
+.num-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
 .num-list li {
   display: grid;
   grid-template-columns: 64px 1fr;
